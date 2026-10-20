@@ -56,7 +56,7 @@ find next `<`, then add the plain text before it (P3), read the part of speech i
 - Done when: pieces of text plus the answers stitch back together to the exact original story format.
 - Also: build the short **presentation** (what each part does, hardest parts) and decide who presents which part.
 
-### Person 4: User Input and Prompts (lightest workload)
+### Person 4: User Input and Prompts
 - Write `promptUser` using `Scanner` (requirement: algorithm that processes user input; various prompts).
 - Vary the prompt by part of speech, for example "Enter a plural noun:" and "Enter a number:". Use "an" before vowels, as in "Enter an adjective:" (use `substring(0,1)` and `equals`/`indexOf` against "aeiou").
 - Done when: each part of speech gets a clear, distinct prompt and returns the user's answer.
