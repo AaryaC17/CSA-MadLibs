@@ -53,3 +53,29 @@ public class TagParser
         return story.substring(tagStart + 1, tagEnd);
     }
 }
+
+
+/*
+ For Person 1 - how to use these in the main loop
+ These methods only look at the FIRST tag in whatever String you give them
+ So after each tag you have to cut the story to everything after the '>'
+ or it will keep finding the same tag over and over
+
+ Each loop:
+   int tagStart = findTagStart(rest);
+   int tagEnd = findTagEnd(rest, tagStart);   // needs both arguments
+   if tagEnd == -1 there are no tags left so stop the loop
+   String partOfSpeech = getPartOfSpeech(rest);
+   rest = rest.substring(tagEnd + 1);          // cut off the used tag
+
+ findTagStart and findTagEnd return -1 when there are no tags left
+ getPartOfSpeech returns "" when there are no tags left
+
+
+ Find the tag (findTagStart, findTagEnd)
+If tagEnd == -1, stop
+Add the text before the < (Person 3)
+Get the part of speech (getPartOfSpeech)
+Ask the user (Person 4) and add their answer
+Cut rest after the >
+ */
