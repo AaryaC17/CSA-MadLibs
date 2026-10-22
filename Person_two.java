@@ -1,5 +1,5 @@
 /*
- Person 2:
+ Person 2: Parsing the Parts of Speech
  Find tags like <noun> or <plural noun> in a Mad Lib story and return
  the part of speech written inside them
  Only uses indexOf and substring from the Quick Reference
