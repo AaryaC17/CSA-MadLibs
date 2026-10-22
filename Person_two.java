@@ -1,81 +1,92 @@
 /*
- Person 2: Parsing the Parts of Speech
+ Person 2:
  Find tags like <noun> or <plural noun> in a Mad Lib story and return
  the part of speech written inside them
- Only uses indexOf and substring from the Quick Reference
+ Only uses indexOf, substring, and length from the Quick Reference
  */
 public class TagParser
 {
     /*
-     Returns where the first '<' is, or -1 if there are no tags left
-     indexOf already gives -1 if it can't find it so we just return that
+     Returns where the next '<' is at or after from, or -1 if there are no tags left
+     indexOf(String) always searches from the start, so we cut the story at
+     from first, search that part, then add from back to get the real
+     position in the full story
      */
-    public static int findTagStart(String story)
+    // Requirement: algorithm to parse for the parts of speech to replace
+    public static int findTagStart(String story, int from)
     {
-        return story.indexOf("<");
+        if (from < 0 || from > story.length())
+        {
+            return -1; // from is outside the story so there's nothing to search
+        }
+        int startInPiece = story.substring(from).indexOf("<");
+        if (startInPiece == -1)
+        {
+            return -1; // no more '<' so no tags left
+        }
+        return from + startInPiece;
     }
 
     /*
-     Returns where the '>' after tagStart is, or -1 if there isn't one
-     indexOf(String) always searches from the start, so we cut the story at
-     tagStart first, search that part, then add tagStart back to get the
-     real position in the full story
+     Returns where the next '>' is at or after from, or -1 if there isn't one
+     Works the same way as findTagStart but looks for '>' instead
+     Person 1 passes in tagStart as from so it finds the '>' that closes that tag
      */
-    public static int findTagEnd(String story, int tagStart)
+    // Requirement: algorithm to parse for the parts of speech to replace
+    public static int findTagEnd(String story, int from)
     {
-        if (tagStart == -1)
+        if (from < 0 || from > story.length())
         {
-            return -1; // no '<' so there's no tag to close
+            return -1; // from is outside the story so there's nothing to search
         }
-        int endInPiece = story.substring(tagStart).indexOf(">");
+        int endInPiece = story.substring(from).indexOf(">");
         if (endInPiece == -1)
         {
             return -1; // found '<' but it never closes
         }
-        return tagStart + endInPiece;
+        return from + endInPiece;
     }
 
     /*
-     Returns the part of speech inside the first tag,
-     or "" if there's no complete tag left
-     Finds both brackets and takes everything between them, the +1 skips
-     the '<' and substring stops right before the '>'
+     Returns the part of speech between '<' (at start) and '>' (at end),
+     or "" if either bracket wasn't found
+     The +1 skips the '<' and substring stops right before the '>'
      Spaces stay in so multi word tags like <plural noun> still work
      */
-    public static String getPartOfSpeech(String story)
+    // Requirement: algorithm to parse for the parts of speech to replace
+    public static String getPartOfSpeech(String story, int start, int end)
     {
-        int tagStart = findTagStart(story);
-        int tagEnd = findTagEnd(story, tagStart);
-        if (tagEnd == -1)
+        if (start == -1 || end == -1)
         {
-            return ""; // also covers no '<' since findTagEnd returns -1 then
+            return ""; // no complete tag so nothing to return
         }
-        return story.substring(tagStart + 1, tagEnd);
+        return story.substring(start + 1, end);
+    }
+
+    /*
+     Test to make sure it goes through every tag in order
+     The story never gets cut, instead from moves to right after each '>'
+     so the next search starts past the tag we already used
+     */
+    public static void main(String[] args)
+    {
+        String story = "I went to the animal <noun>; the <plural noun> and the <number> beasts were there.";
+        int from = 0;
+        boolean moreTags = true;
+
+        while (moreTags)
+        {
+            int tagStart = findTagStart(story, from);
+            int tagEnd = findTagEnd(story, tagStart);
+            if (tagEnd == -1)
+            {
+                moreTags = false; // no complete tags left so stop
+            }
+            else
+            {
+                System.out.println(getPartOfSpeech(story, tagStart, tagEnd));
+                from = tagEnd + 1; // move past the '>' so we find the next tag
+            }
+        }
     }
 }
-
-
-/*
- For Person 1 - how to use these in the main loop
- These methods only look at the FIRST tag in whatever String you give them
- So after each tag you have to cut the story to everything after the '>'
- or it will keep finding the same tag over and over
-
- Each loop:
-   int tagStart = findTagStart(rest);
-   int tagEnd = findTagEnd(rest, tagStart);   // needs both arguments
-   if tagEnd == -1 there are no tags left so stop the loop
-   String partOfSpeech = getPartOfSpeech(rest);
-   rest = rest.substring(tagEnd + 1);          // cut off the used tag
-
- findTagStart and findTagEnd return -1 when there are no tags left
- getPartOfSpeech returns "" when there are no tags left
-
-
- Find the tag (findTagStart, findTagEnd)
-If tagEnd == -1, stop
-Add the text before the < (Person 3)
-Get the part of speech (getPartOfSpeech)
-Ask the user (Person 4) and add their answer
-Cut rest after the >
- */
