@@ -3,15 +3,17 @@
 //imports scanner
 import java.util.Scanner;
 // Bugtested by Person 5
-public class promptUser {
+/* Fixed by Person 5: class was named promptUser (lowercase). Class names should be capitalized,
+ so it was renamed to PromptUser and the file was renamed to PromptUser.java to match.*/
+public class PromptUser {
     //callable function, takes partof speech and scanner as parameters, returns a string
     //part of speech could be noun, verb, adjective, adverb, etc. Scanner is used to get user input
     // Fixed by Person 5: parameters were in the wrong order (String, Scanner) and the Scanner was named "input".
-    // Changed to (Scanner in, String partOfSpeech) to match the agreed signature so Person 1's call compiles.
+    // Fixed by Person 5: Changed to (Scanner in, String partOfSpeech) so Person 1s call compiles.
     public static String promptUser(Scanner in, String partOfSpeech) {
         
         /* check first letter, if vowel it will not return -1 and will do an, 
-        if its not a vowel it will return -1 and will do a*/
+        if its not a vowel it will return -1 and will do a */
         String vowels = "aeiouAEIOU";
         String firstLetter = partOfSpeech.substring(0, 1);
         //it will ask for the response word that matches part of speech
