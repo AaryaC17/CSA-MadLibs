@@ -6,7 +6,9 @@ import java.util.Scanner;
 public class promptUser {
     //callable function, takes partof speech and scanner as parameters, returns a string
     //part of speech could be noun, verb, adjective, adverb, etc. Scanner is used to get user input
-    public static String promptUser(String partOfSpeech, Scanner input) {
+    // Fixed by Person 5: parameters were in the wrong order (String, Scanner) and the Scanner was named "input".
+    // Changed to (Scanner in, String partOfSpeech) to match the agreed signature so Person 1's call compiles.
+    public static String promptUser(Scanner in, String partOfSpeech) {
         
         /* check first letter, if vowel it will not return -1 and will do an, 
         if its not a vowel it will return -1 and will do a*/
@@ -20,7 +22,8 @@ public class promptUser {
         }
         /*takes the user input and returns it as a string, which is an answer to the prompt of giving a noun,etc
         takes input then moves to next Scanner line so input will always start on new blank line*/
-        String word = input.nextLine();
+        // Fixed by Person 5: was input.nextLine(), renamed to in.nextLine() to match the new parameter name
+        String word = in.nextLine();
         
         //returns the user input as a string in the end to be used in the madlib
         return word;
